@@ -1,0 +1,2 @@
+export const CONS_URL="https://www.logodee.com/wp-content/uploads/2020/07/LD-C-4-2.jpg";
+export const FOOD_LOGO="https://img.freepik.com/premium-photo/chilli-chicken-dry-is-popular-indo-chinese-dish-chicken-hakka-chinese-heritage_466689-77141.jpg?w=826";
