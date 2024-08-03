@@ -1,16 +1,16 @@
 import ResCard from "./RestaurantCard";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import grdlist from "../utils/mockdata";
 import Shimmer from "./Shimmer";
 import restaurants from "../utils/swiggymockdata";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const Body= () =>{
     const [searchtext,setSearchtext]=useState("");   
     const [ stateData, setStateData]= useState([]);
-    const [updatedlist, setupdatedlist]= useState([]);
-    //  conditional rendering
-    //  if(setupdatedlist.length==0){
-    //     return  <shimmer />
-    // } 
+    const [updatedlist, setUpdatedlist]= useState([]);
+
     useEffect(()=>{
       fetchData();
     },[]);
@@ -20,11 +20,11 @@ const Body= () =>{
     const json=await data.json();
     console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
    setStateData(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-   setupdatedlist(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+   setUpdatedlist(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
 };
 
-    return  stateData.length ===0? (<Shimmer/>) : (
-        <div className="body">
+      return  updatedlist.length== 0 ? (<Shimmer/>) : (
+  <div className="body">
             <div className="search">
                 <div className="search-value">
                <input type="textbox" aria-label="search" value={searchtext} onChange={(e)=>{
@@ -32,13 +32,13 @@ const Body= () =>{
                 }}></input>
                <button onClick={()=>{
                 const matchlist=stateData.filter(res=>res.info.name.toLowerCase().includes(searchtext.toLowerCase()));
-                setupdatedlist(matchlist)}}>Search</button>
+                setUpdatedlist(matchlist)}}>Search</button>
                </div>
             <div className="filter">
             { <button className="filter-btn" onClick={()=>
                 {
                     const updatedList= stateData.filter(res=>res.info.avgRating>4);
-                    setupdatedlist(updatedList);
+                    setUpdatedlist(updatedList);
                 }
                 }
                 >Top Rated Restaurants</button> }
@@ -48,7 +48,7 @@ const Body= () =>{
        <div className="res-container">
         
            {updatedlist.map((restaurant) => (
-            <ResCard key={restaurant.info.id} resData={restaurant} />
+            <Link class="Link" to={"/restaurants/"+restaurant.info.id}><ResCard key={restaurant.info.id} resData={restaurant} /></Link>
             ))}
            
         </div>

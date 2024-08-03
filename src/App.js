@@ -2,6 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
+import About from "./components/About";
+import Contactus from "./components/Contactus";
+import Errors from "./components/Errors";
+import { createBrowserRouter ,RouterProvider, Outlet} from "react-router-dom";
+import ResMenu from "./components/ResMenu";
 // //using React
 // // const heading= React.createElement("h1",{id:"heading",xyz:"abc"},"Hello from React");
 // //using JSX
@@ -25,11 +30,43 @@ const Applayout= () => {
     return (
         <div className="app">
          <Header/>
-         <Body/>
+        <Outlet />
         </div>
     );
-}
+};
 
+const appRouter= createBrowserRouter([{
+    path:"/",
+    element:<Applayout />,
+    children:[
+        {
+        path:"/",
+        element:<Body />
+        },
+        {
+            path:"/about",
+            element:<About />
+        },
+        {
+            path:"/contact",
+            element:<Contactus/>
+        },
+        {
+            path:"/restaurants/:resId",
+            element:<ResMenu />,
+        }
+    ],
+    errorElement:<Errors />,
+},
+// {
+//     path:"/about",
+//     element:<About />
+// },
+// {
+//     path:"/contact",
+//     element:<Contactus />
+// },
+]);
 const root=ReactDOM.createRoot(document.getElementById("root"));
- root.render(<Applayout />);
+ root.render(<RouterProvider router={appRouter} />);
 //  root.render(heading);
